@@ -11,6 +11,7 @@ from keras.callbacks.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROn
 
 train = pd.read_csv("dataset/train.csv")
 y = train.iloc[:,1].values
+print(y)
 y = LabelEncoder().fit_transform(y)
 
 print(y)
@@ -26,9 +27,10 @@ for i in range(len(train)):
 X = np.array(X)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
 
-print(X_train.shape)
+print(len(X_train))
 X_train = X_train.reshape((len(X_train),100,100,1))
 X_test = X_test.reshape((len(X_test),100,100,1))
+print(X_train.shape)
 
 model = Sequential()
 
@@ -48,12 +50,12 @@ callbacks = [
     save_weights_only = True)
 ]
 
-model.compile(optimizer = "Adam", metrics = ['accuracy'], loss = 'sparse_categorical_crossentropy')
+# model.compile(optimizer = "Adam", metrics = ['accuracy'], loss = 'sparse_categorical_crossentropy')
 
-model.fit(X_train, y_train, epochs = 30, validation_data = (X_test, y_test))
+# model.fit(X_train, y_train,callbacks = callbacks, epochs = 5, validation_data = (X_test, y_test))
 
-model.save("model.h5")
-y_pred = model.predict(X_test)
+# model.save("model.h5")
+# y_pred = model.predict(X_test)
 
 
-print(accuracy_score(y_test, y_pred))
+#print(accuracy_score(y_test, y_pred))
